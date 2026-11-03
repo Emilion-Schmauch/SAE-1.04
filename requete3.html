@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAE-1.04</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <a class="retour" href="index.html">Retour à l'accueil</a>
+    <header>
+        <h1 class="titre">SAE-1.04</h1>
+        <h2 class="titre">Requête 3</h2>
+    </header>
+    <main>
+        <section>
+            <strong>
+                Dans une réflexion en lien avec la santé : On veut comme indicateur le chiffre d’affaire 
+                généré (montant total des ventes) annuel pour les catégories desserts ou boissons.
+            </strong>
+            <pre>
+SELECT Year(Commande.DateCde)
+AS Annee, Categorie.NomCateg, Sum(DetailCommande.Quantité*Produit.CoutAchat*Categorie.CoefMarge*(1-DetailCommande.[Remise (%)]/100))
+AS CA_Annuel 
+FROM ((Commande INNER JOIN DetailCommande ON Commande.[N° commande] = DetailCommande.[N° commande]) INNER JOIN Produit
+ON DetailCommande.[Réf produit] = Produit.RefProd) 
+INNER JOIN Categorie ON Produit.CodeCateg = Categorie.CodeCateg
+WHERE Categorie.NomCateg IN ("Desserts", "Boissons") GROUP BY Year(Commande.DateCde), Categorie.NomCateg
+ORDER BY Year(Commande.DateCde), Categorie.NomCateg;
+            </pre>
+        </section>
+        <section>
+            <strong>Résultat de la requête :</strong>
+            <br><br>
+            <img src="C:\Users\Emilion\Desktop\IUT\SAÉ\SAÉ 1.04 (Données)\Rapport collectif\Resultats_requete3.png" alt="Tableau du chiffre d'affaire annuel pour les catégories desserts et boissons" class="requete_image">
+        </section>
+
+    </main>
+</body>
+</html>
