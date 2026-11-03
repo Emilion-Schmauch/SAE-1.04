@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAE-1.04</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <a class="retour" href="index.html">Retour à l'accueil</a>
+    <header>
+        <h1 class="titre">SAE-1.04</h1>
+        <h2 class="titre">Indicateurs personnels</h2>
+    </header>
+    <main class="grid">
+     <section class="grid-item">
+        <strong>Emilion SCHMAUCH</strong>
+        <p>
+            Le nombre de produits dans des commande dont les fournisseurs viennent et ne viennent pas du même pays que le client.
+        </p>
+        <table>
+            <tr>
+                <th>Même pays</th>
+            </tr>
+            <tr>
+                <td>
+                    <pre class="indicateurs_sql">
+SELECT COUNT(*)
+FROM 
+    (((Fournisseur AS F INNER JOIN Produit AS P ON F.NoFour=P.NoFour) 
+    INNER JOIN DetailCommande AS D ON P.RefProd=D.Ref_Produit) 
+    INNER JOIN Commande AS Co ON D.N°_commande=Co.N°_commande) 
+    INNER JOIN Clientele AS Cl ON Co.CodeCli=Cl.CodeCli
+WHERE Cl.NoPays<>F.NoPays;
+                    </pre>
+                </td>
+            </tr>
+            <tr>
+                <td>2482</td>
+            </tr>
+            <tr>
+                <th>Pays différent</th>
+            </tr>
+                <td>
+                    <pre class="indicateurs_sql">
+SELECT COUNT(*)
+FROM 
+(((Fournisseur AS F INNER JOIN Produit AS P ON F.NoFour=P.NoFour) 
+INNER JOIN DetailCommande AS D ON P.RefProd=D.Ref_Produit) 
+INNER JOIN Commande AS Co ON D.N°_commande=Co.N°_commande) 
+INNER JOIN Clientele AS Cl ON Co.CodeCli=Cl.CodeCli
+WHERE Cl.NoPays=F.NoPays;
+                    </pre>
+                </td>
+            </tr>
+            
+                <td>222</td>
+            </tr>
+        </table>
+    </section>
+    <section class="grid-item">
+        <strong>Allan MANDIL</strong>
+        <p>
+            Les produits qui sont encore en stock, classés selon la valeur financière qu'ils représentent pour l'entreprise.
+        </p>
+        <pre class="indicateurs_sql">
+SELECT
+    Produit.RefProd,
+    Produit.NomProd,
+    Categorie.NomCateg,
+    Produit.UnitStock AS UnitesEnStock,
+    Produit.CoutAchat,
+    (Produit.UnitStock * Produit.CoutAchat) AS ValeurStockImmobilise
+FROM
+    (Produit INNER JOIN Categorie ON Produit.CodeCateg = Categorie.CodeCateg)
+    LEFT JOIN DetailCommande ON Produit.RefProd = DetailCommande.[Réf produit]
+WHERE
+    DetailCommande.[Réf produit] IS NULL
+    AND Produit.UnitStock > 0
+ORDER BY
+    (Produit.UnitStock * Produit.CoutAchat) DESC;
+        </pre>
+        <img src="C:\Users\Emilion\Desktop\IUT\SAÉ\SAÉ 1.04 (Données)\Rapport collectif\Resultats_id_Allan.png" alt="Tableau des produits en stock classés par valeur financière" class="indicateur_image">
+     </section>
+    <section class="grid-item">
+        <strong>Tiessema COULIBALI</strong>
+        <p>Les pays et leur appartenance à l'UE des fournisseurs classés par plus grand nombre de produits fournis.</p>
+        <pre class="indicateurs_sql">
+SELECT Pays.PaysFR AS PaysOrigine, Pays.UE AS PaysEuropeen, 
+Count(Produit.RefProd) AS NombreProduits
+FROM (Pays INNER JOIN Fournisseur ON Pays.NoPays = Fournisseur.NoPays) 
+INNER JOIN Produit ON Fournisseur.NoFour = Produit.NoFour
+GROUP BY Pays.PaysFR, Pays.UE
+ORDER BY Count(Produit.RefProd) DESC;
+        </pre>
+        <img src="C:\Users\Emilion\Desktop\IUT\SAÉ\SAÉ 1.04 (Données)\Rapport collectif\Resultats_id_Tiessema.png" alt="Tableau des pays et leur appartenance à l'UE des fournisseurs classés par plus grand nombre de produits fournis" class="indicateur_image">
+    </section>
+    
+        <section class="grid-item">
+            <strong>Noé FONTANIE</strong>
+            <p></p>
+        </section>
+    </main>
+</body>
+</html>
