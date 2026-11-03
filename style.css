@@ -1,0 +1,76 @@
+body{
+   background-color: #ffb937;
+}
+.titre{
+   text-align: center;
+}
+a{
+   text-decoration: none;
+   color: #000000;
+   padding: 10px;
+   background-color: red;
+   border-radius: 10px;
+   font-size: 20px;
+   
+}
+a:hover{
+      background-color: black;
+      color: white;
+   }
+li{
+   list-style-type: none;
+   text-align: center;   
+   margin: 30px;
+}
+.retour{
+   position:fixed;
+   z-index: 9999;
+   top: 10px;
+   right: 10px;
+}
+h1{
+   text-align: center;
+   font-size: 50px;
+}
+h2{
+   text-align: center;
+   font-size: 30px;
+}
+h3{
+   text-align: center;
+   font-size: 20px;
+}
+p, strong, pre{
+   font-size: 20px;
+}
+.grid{
+   display: grid;
+   grid-template-columns: repeat(2, 1fr);
+   grid-template-rows: repeat(2, 1fr);
+   gap: 20px;
+   padding: 20px;
+}
+.grid-item{
+   padding: 20px;
+   background-color: #ff7a0efa;
+   border-radius: 10px;
+}
+table,tr,th,td{
+   border-collapse: collapse;
+   border: 1px solid #000000;
+}
+.indicateurs_sql{
+   font-size: 10px;
+}
+.indicateur_image{
+   max-width: 100%;
+   height: auto;
+}
+
+
+@media (max-width: 768px) {
+   .grid {
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(4, 1fr);
+   }
+}
