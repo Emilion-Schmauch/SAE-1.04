@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAÉ-1.04</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <a class="retour" href="index.html">Retour à l'accueil</a>
+    <header>
+        <h1 class="titre">SAÉ-1.04</h1>
+        <h2 class="titre">Requête 4</h2>
+    </header>
+    <main>
+        <section>
+            <strong>
+                Dans une réflexion en lien avec l’offre commerciale : Calcul de l’indicateur nombre de 
+                produits carnés non commandés actuellement ?
+            </strong>
+            </strong>
+            <code> <pre>
+FROM Produit AS P
+WHERE P.CodeCateg = 6
+AND P.UnitStock > (
+    SELECT SUM(D.Quantité)
+    FROM DetailCommande AS D
+    WHERE D.Réf_produit = P.RefProd
+)
+OR (
+    P.CodeCateg = 6
+    AND P.RefProd NOT IN (
+        SELECT Réf_produit
+        FROM DetailCommande
+    )
+);
+            </pre></code>
+        </section>
+        <section>
+            <strong>Résultat de la requête :</strong>
+            <p>2</p>
+        </section>
+
+    </main>
+</body>
+</html>
