@@ -60,13 +60,28 @@ table,tr,th,td{
    border: 1px solid #000000;
 }
 .indicateurs_sql{
-   font-size: 10px;
+   font-size: 12px;
 }
 .indicateur_image{
    max-width: 100%;
    height: auto;
 }
-
+.flex-container{
+   display: flex;
+   justify-content: space-evenly;
+   align-items: center;
+   flex-wrap: wrap;
+}
+.indicateurs_pourquoi{
+   max-width: 100%;
+   font-size: 14px;
+}
+#img_id_Tiessema{
+   height: 40%;
+}
+#img_id_Noé{
+   height: 40%;
+}
 
 @media (max-width: 768px) {
    .grid {
