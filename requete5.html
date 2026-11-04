@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAE-1.04</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <a class="retour" href="index.html">Retour à l'accueil</a>
+    <header>
+        <h1 class="titre">SAÉ-1.04</h1>
+        <h2 class="titre">Requête 5</h2>
+    </header>
+    <main>
+        
+            <strong>
+                Dans une réflexion sur le partenariat client : A-t-on des clients pilotes d’un réseau 
+                partenaire ayant autant de commandes que les clients partenaires ?
+            </strong>
+            <div class="flex-container">
+                <div class="flex-item">      
+            <code> 
+                <pre>
+SELECT
+    Pilote.Societe AS Nom_Pilote,
+    (
+        SELECT COUNT()
+        FROM Commande AS C
+        WHERE C.CodeCli = Pilote.CodeCli
+    ) AS Cde_Pilote,
+    Part.Societe AS Nom_Partenaire,
+    (
+        SELECT COUNT()
+        FROM Commande AS C
+        WHERE C.CodeCli = Part.CodeCli
+    ) AS Cde_Partenaire
+FROM
+    Clientele AS Pilote
+    INNER JOIN Clientele AS Part ON Pilote.CodeCli = Part.CodeCliPart
+WHERE
+    (
+        SELECT COUNT()
+        FROM Commande AS C
+        WHERE C.CodeCli = Pilote.CodeCli
+    ) = (
+        SELECT COUNT()
+        FROM Commande AS C
+        WHERE C.CodeCli = Part.CodeCli
+    );
+            </pre>
+        </code>
+        </div>
+        <div class="flex-item">
+            <strong>Résultat de la requête :</strong>
+            <br><br>
+            <img src="Resultats_requete5.png" alt="Tableau des clients pilotes et partenaires avec autant de commandes" class="requete_image">
+        <p>Il existe bien un client pilote et un client partenaire avec autant de commandes.</p>
+        </div>
+        </div>
+    </main>
+</body>
+</html>
