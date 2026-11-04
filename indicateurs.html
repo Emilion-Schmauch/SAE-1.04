@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SAE-1.04</title>
+    <title>SAÉ-1.04</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <a class="retour" href="index.html">Retour à l'accueil</a>
     <header>
-        <h1 class="titre">SAE-1.04</h1>
+        <h1 class="titre">SAÉ-1.04</h1>
         <h2 class="titre">Indicateurs personnels</h2>
     </header>
     <main class="grid">
@@ -18,52 +18,66 @@
         <p>
             Le nombre de produits dans des commande dont les fournisseurs viennent et ne viennent pas du même pays que le client.
         </p>
+        <p class="indicateurs_pourquoi">
+            L’entreprise KDou a pour objectif de se donner une image plus eco-friendly. Pour cela, elle peut essayer de 
+            minimiser le changement de pays de produits. Privilégier les produits locaux réduirait son empreinte carbone 
+            ainsi que ses frais de livraison. Pour constater le problème, il faut créer deux requêtes pour compter les produits 
+            qui changent de pays et les autres.
+        </p>
         <table>
             <tr>
-                <th>Même pays</th>
+                <th scope="col">Même pays</th>
             </tr>
             <tr>
                 <td>
-                    <pre class="indicateurs_sql">
+                    <code> <pre class="indicateurs_sql">
 SELECT COUNT(*)
 FROM 
     (((Fournisseur AS F INNER JOIN Produit AS P ON F.NoFour=P.NoFour) 
-    INNER JOIN DetailCommande AS D ON P.RefProd=D.Ref_Produit) 
-    INNER JOIN Commande AS Co ON D.N°_commande=Co.N°_commande) 
+    INNER JOIN DetailCommande AS D ON P.RefProd=D.Réf Produit) 
+    INNER JOIN Commande AS Co ON D.N° commande=Co.N° commande) 
     INNER JOIN Clientele AS Cl ON Co.CodeCli=Cl.CodeCli
-WHERE Cl.NoPays<>F.NoPays;
-                    </pre>
+WHERE Cl.NoPays &lt;&gt; F.NoPays;
+                    </pre></code>
                 </td>
             </tr>
             <tr>
                 <td>2482</td>
             </tr>
             <tr>
-                <th>Pays différent</th>
+                <th scope="col">Pays différent</th>
             </tr>
                 <td>
-                    <pre class="indicateurs_sql">
+                    <code> <pre class="indicateurs_sql">
 SELECT COUNT(*)
 FROM 
 (((Fournisseur AS F INNER JOIN Produit AS P ON F.NoFour=P.NoFour) 
-INNER JOIN DetailCommande AS D ON P.RefProd=D.Ref_Produit) 
-INNER JOIN Commande AS Co ON D.N°_commande=Co.N°_commande) 
+INNER JOIN DetailCommande AS D ON P.RefProd=D.Réf Produit) 
+INNER JOIN Commande AS Co ON D.N° commande=Co.N° commande) 
 INNER JOIN Clientele AS Cl ON Co.CodeCli=Cl.CodeCli
 WHERE Cl.NoPays=F.NoPays;
-                    </pre>
+                    </pre></code>
                 </td>
             </tr>
             
                 <td>222</td>
             </tr>
         </table>
+        <p class="indicateurs_pourquoi">
+            On constate que pour la grande majorité des produits commandés, les clients ne viennent pas du même pays que le 
+            fournisseur. De gros progrès sont donc possible pour KDou sur ce sujet.
+        </p>
     </section>
     <section class="grid-item">
         <strong>Allan MANDIL</strong>
         <p>
             Les produits qui sont encore en stock, classés selon la valeur financière qu'ils représentent pour l'entreprise.
         </p>
-        <pre class="indicateurs_sql">
+        <p class="indicateurs_pourquoi">
+        Cette requête identifie les produits qui n'ont jamais été vendus (plus précisément, jamais commandés), qui sont encore en stock.
+        C'est notamment utile pour repérer les stocks dormants et les produits qui immobilisent inutilement beaucoup de capital.    
+        </p>
+        <code> <pre class="indicateurs_sql">
 SELECT
     Produit.RefProd,
     Produit.NomProd,
@@ -79,26 +93,57 @@ WHERE
     AND Produit.UnitStock > 0
 ORDER BY
     (Produit.UnitStock * Produit.CoutAchat) DESC;
-        </pre>
+        </pre></code>
         <img src="Resultats_id_Allan.png" alt="Tableau des produits en stock classés par valeur financière" class="indicateur_image">
      </section>
     <section class="grid-item">
-        <strong>Tiessema COULIBALI</strong>
+        <strong>Tiessema COULIBALY</strong>
         <p>Les pays et leur appartenance à l'UE des fournisseurs classés par plus grand nombre de produits fournis.</p>
-        <pre class="indicateurs_sql">
+        <p class="indicateurs_pourquoi">
+            Cela permet d’identifier l’origine géographique des produits et donc de permettre d’établir 
+            une politique de fournissement plus respectueuse de l’environnement en privilégiant 
+            des fournisseurs plus proches. En outre, cela permettra à Kdou de garder l’œil sur sa 
+            dépendance aux fournisseurs étrangers et de renforcer sa position sur le marché 
+            européen.
+            </p>
+        <code> <pre class="indicateurs_sql">
 SELECT Pays.PaysFR AS PaysOrigine, Pays.UE AS PaysEuropeen, 
 Count(Produit.RefProd) AS NombreProduits
 FROM (Pays INNER JOIN Fournisseur ON Pays.NoPays = Fournisseur.NoPays) 
 INNER JOIN Produit ON Fournisseur.NoFour = Produit.NoFour
 GROUP BY Pays.PaysFR, Pays.UE
 ORDER BY Count(Produit.RefProd) DESC;
-        </pre>
-        <img src="Resultats_id_Tiessema.png" alt="Tableau des pays et leur appartenance à l'UE des fournisseurs classés par plus grand nombre de produits fournis" class="indicateur_image">
-    </section>
+        </pre></code>
+                <img id="img_id_Tiessema" src="Resultats_id_Tiessema.png" alt="Tableau des pays et leur appartenance à l'UE des fournisseurs classés par plus grand nombre de produits fournis" class="indicateur_image">
+            </section>
     
         <section class="grid-item">
             <strong>Noé FONTANIE</strong>
-            <p></p>
+            <p>Le nombre de fournisseurs dans chaque pays, classés par ordre croissant</p>
+            <p class="indicateurs_pourquoi">
+                Cette requête a pour but d'optimiser les trajets afin de réduire leurs coûts et leurs émissions de CO<sub>2</sub>.
+                Par exemple, elle permettrait de voir si plusieurs produits pourraient être ramenés en un seul trajet 
+                plutôt que lors de plusieurs trajets plus courts. Ainsi, KDou pourrait également rechercher d'autres 
+                fournisseurs dans des pays où l'entreprise possède déjà des fournisseurs afin de limiter le nombre de trajets.
+            </p>
+            <code> <pre class="indicateurs_sql">
+SELECT
+    P.NoPays,
+    Count(Prod.RefProd) AS NbProd,
+    P.PaysFR
+FROM
+    Pays AS P
+    INNER JOIN (
+        Fournisseur AS F
+        INNER JOIN Produit AS Prod ON F.NoFour = Prod.NoFour
+    ) ON P.NoPays = F.NoPays
+GROUP BY
+    P.NoPays,
+    P.PaysFR
+ORDER BY
+    Count(Prod.RefProd);
+        </pre></code>
+            <img id="img_id_Noé" src="Resultats_id_Noé.png" alt="Tableau du nombre de fournisseurs dans chaque pays, classés par ordre croissant" class="indicateur_image">
         </section>
     </main>
 </body>
