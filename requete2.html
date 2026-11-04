@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SAE-1.04</title>
+    <title>SAÉ-1.04</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <a class="retour" href="index.html">Retour à l'accueil</a>
     <header>
-        <h1 class="titre">SAE-1.04</h1>
+        <h1 class="titre">SAÉ-1.04</h1>
         <h2 class="titre">Requête 2</h2>
     </header>
     <main>
@@ -18,13 +18,14 @@
                 Dans une réflexion en lien avec l’origine de ses produits : On veut comme indicateur le CA 
                 total généré à ce jour avec les fournisseurs de l’UE ? 
             </strong>
-            <pre>
-                SELECT SUM(CoutAchat*CoefMarge*Quantité) AS Chiffre_affaire
-                FROM ((Pays AS P INNER JOIN (Fournisseur AS F INNER JOIN Produit AS Pr ON F.NoFour = Pr.NoFour) ON P.NoPays = F.NoPays)
-                INNER JOIN DetailCommande AS D ON Pr.RefProd = D.Ref_produit) 
-                INNER JOIN Categorie AS Ca ON Pr.CodeCateg=Ca.CodeCateg
-                WHERE UE="Membre";
-            </pre>
+            </strong>
+            <code> <pre>
+SELECT SUM(CoutAchat*CoefMarge*Quantité) AS Chiffre_affaire
+FROM ((Pays AS P INNER JOIN (Fournisseur AS F INNER JOIN Produit AS Pr ON F.NoFour = Pr.NoFour) ON P.NoPays = F.NoPays)
+INNER JOIN DetailCommande AS D ON Pr.RefProd = D.Ref_produit) 
+INNER JOIN Categorie AS Ca ON Pr.CodeCateg=Ca.CodeCateg
+WHERE UE="Membre";
+            </pre></code>
         </section>
         <section>
             <strong>Résultat de la requête :</strong>
